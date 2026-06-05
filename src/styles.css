@@ -1,0 +1,262 @@
+:root {
+  color: #1f2a2e;
+  background: #f6f8f7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 24px 16px;
+  background: #ffffff;
+  border-right: 1px solid #dde5e2;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  margin-bottom: 24px;
+  color: #245c73;
+}
+
+.nav-tabs .MuiTabs-indicator {
+  left: 0;
+  right: auto;
+  width: 3px;
+}
+
+.nav-tabs .MuiTab-root {
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 46px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+.main {
+  min-width: 0;
+  padding: 28px;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  align-items: start;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.role-select,
+.filter-select {
+  min-width: 220px;
+}
+
+.overview-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #dde5e2;
+  border-radius: 8px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stat {
+  padding: 18px;
+}
+
+.stat-green {
+  border-left: 4px solid #2f7d5a;
+}
+
+.stat-brown {
+  border-left: 4px solid #8a5a44;
+}
+
+.content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.change-list,
+.rules-list,
+.timeline,
+.employee-table,
+.notification-list {
+  display: grid;
+  gap: 12px;
+}
+
+.list-row,
+.rule-item,
+.timeline-row,
+.employee-row,
+.answer-panel {
+  padding: 16px;
+}
+
+.rule-item {
+  display: grid;
+  gap: 10px;
+}
+
+.rule-meta,
+.row-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 240px 44px 44px;
+  gap: 12px;
+  align-items: center;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 210px auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.assistant-box {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.answer-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.progress {
+  height: 10px;
+  border-radius: 8px;
+}
+
+.employee-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 960px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: 16px;
+    border-right: 0;
+    border-bottom: 1px solid #dde5e2;
+  }
+
+  .nav-tabs {
+    overflow-x: auto;
+  }
+
+  .nav-tabs .MuiTabs-flexContainer {
+    flex-direction: row;
+  }
+
+  .topbar,
+  .overview-band,
+  .section-heading,
+  .employee-row {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbar,
+  .assistant-box,
+  .timeline-row {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-row .MuiDivider-root {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .main {
+    padding: 18px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .role-select,
+  .filter-select {
+    min-width: 100%;
+  }
+}
+
+@media print {
+  .sidebar,
+  .topbar,
+  .toolbar,
+  .MuiButton-root {
+    display: none !important;
+  }
+
+  .app-shell {
+    display: block;
+  }
+
+  .main {
+    padding: 0;
+  }
+}
