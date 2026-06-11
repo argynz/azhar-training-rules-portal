@@ -36,6 +36,7 @@ import {
   changeLog,
   documentMeta,
   employees,
+  faqAnswers,
   notifications,
   roles,
   sections,
@@ -65,17 +66,14 @@ function findAnswer(question) {
     return null;
   }
 
-  const exactHints = [
-    { words: ['внеш', 'соглас'], item: allItems.find((item) => item.number === '3.2') },
-    { words: ['оплач', 'кто', 'компенс'], item: allItems.find((item) => item.number === '4.1') },
-    { words: ['подать', 'заяв'], item: allItems.find((item) => item.number === '2.1') },
-    { words: ['отказ'], item: allItems.find((item) => item.number === '5.2') },
-    { words: ['обязан', 'после', 'курс'], item: allItems.find((item) => item.number === '5.1') },
-  ];
-
-  const hinted = exactHints.find(({ words }) => words.some((word) => normalized.includes(word)));
-  if (hinted?.item) {
-    return hinted.item;
+  // Check FAQ answers first
+  const faqMatch = faqAnswers.find(({ keywords, question: q }) => {
+    if (q.toLowerCase() === normalized) return true;
+    return keywords.some((kw) => normalized.includes(kw));
+  });
+  if (faqMatch) {
+    const item = allItems.find((i) => i.number === faqMatch.itemNumber);
+    if (item) return item;
   }
 
   return allItems.find((item) =>
