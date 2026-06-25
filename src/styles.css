@@ -139,6 +139,12 @@ select {
   gap: 10px;
 }
 
+.rule-item--highlighted {
+  border-color: #1976d2 !important;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
 .rule-meta,
 .row-title {
   display: flex;

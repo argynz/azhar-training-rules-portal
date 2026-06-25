@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Box,
@@ -100,6 +100,8 @@ function App() {
   const [question, setQuestion] = useState('');
   const [assistantItem, setAssistantItem] = useState(null);
   const [acknowledgement, setAcknowledgement] = useState(getAcknowledgement);
+  const [highlightedItem, setHighlightedItem] = useState(null);
+  const highlightRef = useRef(null);
 
   const filteredItems = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -148,6 +150,19 @@ function App() {
     setQuestion(nextQuestion);
     setAssistantItem(findAnswer(nextQuestion));
   }
+
+  function openInRules(item) {
+    setHighlightedItem(item.number);
+    setActiveView('rules');
+  }
+
+  useEffect(() => {
+    if (activeView === 'rules' && highlightedItem && highlightRef.current) {
+      highlightRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const timer = setTimeout(() => setHighlightedItem(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [activeView, highlightedItem]);
 
   return (
     <Box className="app-shell">
@@ -299,20 +314,28 @@ function App() {
               )}
 
               <div className="rules-list">
-                {filteredItems.map((item) => (
-                  <Paper key={item.number} variant="outlined" className="rule-item">
-                    <div className="rule-meta">
-                      <Chip size="small" label={`Пункт ${item.number}`} />
-                      <Chip size="small" variant="outlined" label={`Версия ${item.version}`} />
-                      <Typography variant="caption">Изменен: {item.changedAt}</Typography>
-                    </div>
-                    <Typography variant="h3">{item.title}</Typography>
-                    <Typography>{item.text}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {item.sectionTitle}
-                    </Typography>
-                  </Paper>
-                ))}
+                {filteredItems.map((item) => {
+                  const isHighlighted = item.number === highlightedItem;
+                  return (
+                    <Paper
+                      key={item.number}
+                      ref={isHighlighted ? highlightRef : null}
+                      variant="outlined"
+                      className={`rule-item${isHighlighted ? ' rule-item--highlighted' : ''}`}
+                    >
+                      <div className="rule-meta">
+                        <Chip size="small" label={`Пункт ${item.number}`} />
+                        <Chip size="small" variant="outlined" label={`Версия ${item.version}`} />
+                        <Typography variant="caption">Изменен: {item.changedAt}</Typography>
+                      </div>
+                      <Typography variant="h3">{item.title}</Typography>
+                      <Typography>{item.text}</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {item.sectionTitle}
+                      </Typography>
+                    </Paper>
+                  );
+                })}
               </div>
             </section>
           </Stack>
@@ -379,7 +402,7 @@ function App() {
                   Пункт {assistantItem.number}. {assistantItem.title}
                 </Typography>
                 <Typography>{assistantItem.text}</Typography>
-                <Button variant="text" onClick={() => setActiveView('rules')}>
+                <Button variant="text" onClick={() => openInRules(assistantItem)}>
                   Открыть раздел Правил
                 </Button>
               </Paper>
